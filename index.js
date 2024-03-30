@@ -1,5 +1,3 @@
-
-
 function scuberGreetingForFeet(distance) {
   if (distance <= 400) {
     return "This one is on me!";
@@ -10,17 +8,15 @@ function scuberGreetingForFeet(distance) {
   }
 }
 
-
-function ternaryCHeckCity (destination) { 
-return destination =="NYC" ? "Ok, sounds good.": "No go.";
+function ternaryCheckCity(destination) {
+  return destination === "NYC" ? "Ok, sounds good." : "No go.";
 }
 
-function  switchOnCharmFromTip(tip) {
+function switchOnCharmFromTip(tip) {
   switch (tip) {
-  case "generous":
-    return "Thank you so much."
-    break;
-  default:
-    return "Bye."
+    case "generous":
+      return "Thank you so much.";
+    default:
+      return "Bye.";
   }
 }
