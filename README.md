@@ -1,164 +1,145 @@
-# Control Flow: Operators
+# Review: Control Flow Lab
 
 ## Learning Goals
 
-- Use common comparison functions for control flow (`==`, `!=`, `>`, `<`).
-- Use common logical operators for control flow (`and`, `or`, `not`).
-- Understand the differences in syntax between Python and JavaScript.
-
-***
-
-## Key Vocab
-
-- **Interpreter**: a program that executes other programs. Python programs
-require the Python interpreter to be installed on your computer so that they
-can be run.
-- **Python Shell**: an interactive interpreter that can be accessed from the
-command line.
-- **Data Type**: a specific kind of data. The Python interpreter uses these
-types to determine which actions can be performed on different data items.
-- **Exception**: a type of error that can be predicted and handled without
-causing a program to crash.
-- **Code Block**: a collection of code that is interpreted together. Python
-groups code blocks by indentation level.
-- **Function**: a named code block that performs a sequence of actions when it
-is called.
-- **Scope**: the area in your program where a specific variable can be called.
-
-***
+* Practice writing `if...else if...else` statements.
+* Practice working with the ternary operator.
+* Practice writing `switch` statements.
 
 ## Introduction
 
-Just like JavaScript, Python has several ways we can control the flow of
-execution in our programs:
+You have been hired as a contractor for Scuber, a burgeoning startup that helps
+busy parents transport their children to and from all of their activities on
+scooters.
 
-- We can use conditional statements like `if/else` and `try/except`
-- We can use looping constructs like `for` and `while`
+Scuber's drivers charge their passengers a variable amount based on how far
+they need to travel. Modify the `index.js` file to make sure that Scuber's drivers
+are properly telling their passengers how much the ride will cost.
 
-Using these control flow constructs means we're taking our code out of the
-normal flow of execution (top-to-bottom, one line at a time) and instead
-providing some instructions to change that order. As you've surely seen in
-JavaScript, conditional statements and loops are critical for writing
-applications.
+## Read the Tests
 
-In the next series of lessons, we'll explore common approaches to control flow,
-and learn some new syntax that is unique to Python.
-
-***
-
-## Comparison Operators
-
-In Python, many built-in classes have the following functions that can be used to
-compare two values:
-
-- `>`: greater than
-- `>=`: greater than or equal to
-- `<`: less than
-- `<=`: less than or equal to
-- `==`: equal to
-- `!=`: not equal to
-
-Unlike in JavaScript, the `==` function in Python **will not coerce strings to
-numbers** before comparing them, or perform some of the other type coercions
-that JavaScript does. For example, in JavaScript, using the `==` operator can
-lead to some strange behavior:
+We know that you do not have much experience with testing, so that is why it is
+very important for you to read the instructions in this and every lab. That
+being said, reading the tests can often provide important clues on how to
+complete a lab. Let's take a look at the first test for this lab together:
 
 ```js
-"1" == 1
-// => true
-0 == []
-// => true
-[] == ![]
-// => true 🤔
+describe('index.js', function () {
+  describe('scuberGreetingForFeet()', function () {
+    it('gives customers a free sample if the ride is less than or equal to 400 feet', function () {
+      expect(scuberGreetingForFeet(199)).to.equal('This one is on me!');
+    });
+
+    // tests continue...
+  });
+});
 ```
 
-In Python, the `==` function checks if the objects on both sides are considered the
-equivalent values:
+Okay, so all of the fancy `describe` words are just there to organize the
+requirements, and provide a description for what each function should do. By
+reading the text inside of the `describe` words, we can see that there is some
+function that should give customers a free sample, where the first 400 feet are
+free. Then in the next line we see a function called `scuberGreetingForFeet`
+being executed with `199` passed through as an argument to the function.
+Executing the `scuberGreetingForFeet` function with the argument should return
+`"This one is on me!"`.
 
-```py
-"1" == 1
-# False
-1 == 1
-# True
-```
-
-There are some differences between Python's `==` and JavaScript's `===` though. In
-JavaScript, the `===` operator checks if both objects have the same identity,
-i.e. refer to the same space in memory. For example, in JavaScript, this example
-returns `false` because the two arrays are unique objects in memory:
+We will tackle the details of function writing in depth in an upcoming lab. For 
+now, briefly, a function declaration is written like so:
 
 ```js
-[1, 2, 3] === [1, 2, 3];
-// => false
+function addFive(someNumber) {
+  //Everything I want my function to do I put inside these curly braces
+  //In this example, let's say I want my function, addFive, to add 5 to
+  //any number I pass in (someNumber), but only IF the number is greater
+  //than zero:
+  let result
+  if (someNumber > 0) {
+    result = someNumber + 5;
+  }
+  //at the end, if I want my function to return something, I need to state it:
+  return result
+}
+
+//once our function is declared, we can call addFive, passing in values 
+//as arguments:
+
+addFive(10);
+//=> 15
+
+addFive(20);
+//=> 25
+
+addFive(-5);
+//=> undefined
+
+addFive(addFive(5));
+//=> 15!! In this case, the return value of addFive(5), 10, is passed in 
+//as the argument to the outer addFive, returning 15
 ```
 
-In Python, this example returns `True` because Python considers these to have
-equivalent values:
+So, looking back at our test example, `scuberGreetingForFeet(199)` is calling
+the function `scuberGreetingForFeet`, and passing in the value `199` as the
+argument.  When we write this function, we need to write the logic inside the
+curly braces to pass our tests and return the result:
 
-```py
-[1, 2, 3] == [1, 2, 3]
-# True
+```js
+function scuberGreetingForFeet(someValue) {
+  //this is where we can use conditionals given our argument, someValue
+  //don't forget to return whatever the result is!
+}
 ```
 
-Python will also check if an Integer has the equivalent value to a Float, even
-though they're technically different data types:
+The big clue from reading the example test above is that the tests in the
+`indexTest.js` file are calling the functions that we write inside the
+`index.js` file. These tests pass arguments to our function. When this test
+passes an argument of `199` to our function, the `scuberGreetingForFeet`
+function should return `"This one is on me!"`. That makes sense, considering
+the text in the `describe` and `it` functions say that the first 400 feet
+should be free. That `199` must be indicating the distance in feet of the
+requested ride.
 
-```py
-1.0 == 1
-# True
+So reading tests is essentially like reading the instructions. It's something
+we may have avoided for much of our lives, but when it comes to programming,
+tests fill in the picture of the goal we are trying to accomplish. They run
+mini-experiments on our code and help us better understand our code and the
+problem we are solving.
+
+## Instructions
+
+There are three functions that have been declared for you. You will need to fill in the following code:
+
+* `scuberGreetingForFeet()` — Use `if` and `else if` statements to return the
+correct greeting based on the distance the passenger desires to travel.
+* `ternaryCheckCity()` — Use a ternary operator to return the correct response
+based on the desired destination of the passenger.
+* `switchOnCharmFromTip()` — Use a `switch` statement to return a different
+response based on the generosity of the passenger's tip.
+
+***NOTE***: Beware a gotcha! In JavaScript, you cannot express the concept of
+'between' in the following way:
+
+```js
+2 < 5 < 4
+// => true
 ```
 
-> **Note**: While Python does have an operator, `is`, that is similar to
-> JavaScript's `===`, **it is not used the same way as it is in JavaScript**.
-> There are very few scenarios when you want to use the `is` operator in
-> Python; in general, for comparing data, you want to use the `==`. [See here for
-> examples][Python is] if you're curious about what this operator does.
+It seems like that expression should evaluate to `false` because `5` is not less
+than `4`. However, we're forgetting about the order of operations — let's
+think about how the JavaScript engine evaluates that expression. First, the
+engine compares `2 < 5`, which evaluates to `true`. At that point, it's as
+though the value `true` has replaced `2 < 5` in the expression, resulting in
+`true < 4`. The engine sees that we're trying to compare a non-number (`true`)
+against a number (`4`), and under the hood it converts `true` into a number:
 
-[Python is]: https://stackoverflow.com/questions/21774629/python-is-vs-javascript
-
-***
-
-## Logical Operators
-
-Python has the same logical operators you'll find in many other languages,
-including JavaScript:
-
-- `and`: **and**. Returns `True` if both statements are true.
-- `or`: **or**. Returns `True` if one of the two statements is true.
-- `not`: **not**. Coerces the data to its boolean equivalent, then reverses it
-(`True` becomes `False`, and vice versa).
-
-```py
-True and True
-# True
-False and False
-# False
-False and True
-# False
-True or True
-# True
-False or False
-# False
-False or True
-# True
-not True
-# False
-not not True
-# True
+```js
+Number(true);
+// => 1
 ```
 
-***
+That leaves us with `1 < 4`, which the JavaScript engine correctly evaluates to
+`true`. Can you figure out how to properly evaluate whether `5` is greater than
+`2` **AND** `5` is less than `4` using logical operators? Ponder that as you work
+through the assignment.
 
-## Conclusion
-
-In the coming lessons, we'll be writing some functions that use control flow,
-so make sure to keep these operators for comparing data in mind — they'll be
-very important to your ability to write conditional logic and looping code
-successfully!
-
-***
-
-## Resources
-
-- [Python equality](https://realpython.com/courses/python-is-identity-vs-equality)
-- [Python operators](https://www.geeksforgeeks.org/python-operators/)
+Good luck!
